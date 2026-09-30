@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codebase Understanding Agent | AI-Powered Repository Investigation</title>
+    <meta name="description" content="Autonomous agentic AI that explores unfamiliar software repositories, inspects files, traces execution flows, and produces evidence-backed explanations.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Background Glow Effects -->
+    <div class="bg-glow top-left"></div>
+    <div class="bg-glow bottom-right"></div>
+
+    <div class="app-container">
+        <!-- Top Navigation Header -->
+        <header class="app-header">
+            <div class="brand-section">
+                <div class="brand-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="brand-title">Codebase Understanding Agent</h1>
+                    <p class="brand-subtitle">Autonomous repository inspection, execution tracing & evidence extraction</p>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span id="agent-status-label">Agent Ready</span>
+                </div>
+                <button id="btn-toggle-tools" class="btn-secondary" title="Inspect individual tools directly">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                    <span>Tools Sandbox</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Workspace Grid -->
+        <main class="workspace-layout">
+            <!-- Left Control & Query Panel -->
+            <section class="panel control-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        Target Repository
+                    </h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="repo-select">Select Repository / Codebase</label>
+                    <div class="select-wrapper">
+                        <select id="repo-select">
+                            <option value="" disabled selected>Loading repositories...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="custom-repo-path">Or Specify Custom Local Directory Path</label>
+                    <input type="text" id="custom-repo-path" placeholder="e.g. C:/Projects/my-service or sample-auth-service">
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        Developer Question
+                    </h2>
+                </div>
+
+                <div class="form-group">
+                    <textarea id="question-input" rows="4" placeholder="Ask anything about the codebase architecture, token handling, routes, dependencies, or execution flow..."></textarea>
+                </div>
+
+                <!-- Suggested Query Pills -->
+                <div class="preset-queries">
+                    <span class="preset-label">Primary Questions:</span>
+                    <button class="pill primary" data-query="How does user authentication work in this project from login request to authenticated API access?">Authentication Flow (Full Investigation)</button>
+                    <button class="pill" data-query="Where and how are JWT tokens generated and signed in this project?">JWT Token Generation</button>
+                    <button class="pill" data-query="How does authentication middleware verify user requests and what headers are checked?">Auth Middleware</button>
+                    <button class="pill" data-query="What external packages and dependencies does this project rely on and where are they imported?">Dependencies & Usage</button>
+                </div>
+
+                <button id="btn-investigate" class="btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <span>Start Agent Investigation</span>
+                </button>
+
+                <!-- Investigation Activity Timeline Panel -->
+                <div class="activity-section">
+                    <div class="section-subhead">
+                        <span class="pulse-dot"></span>
+                        <span>Investigation Activity</span>
+                    </div>
+                    <div id="activity-timeline" class="activity-timeline">
+                        <div class="empty-state-mini">Agent idle. Select repository and click "Start Agent Investigation".</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Results & Insights Panel -->
+            <section class="panel results-panel">
+                <!-- Clean Question Header Banner -->
+                <div id="active-question-banner" class="active-question-banner hidden">
+                    <div class="question-label-row">
+                        <span class="question-badge">Developer Question</span>
+                        <span id="active-repo-badge" class="repo-badge">sample-auth-service</span>
+                    </div>
+                    <div id="active-question-text" class="active-question-text"></div>
+                </div>
+
+                <!-- Navigation Tabs inside Result Panel -->
+                <div class="results-nav">
+                    <button class="tab-btn active" data-target="tab-answer">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        Final Explanation
+                    </button>
+                    <button class="tab-btn" data-target="tab-evidence">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                        Evidence Citations <span id="evidence-badge" class="badge">0</span>
+                    </button>
+                    <button class="tab-btn" data-target="tab-flow">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        Execution Flow <span id="flow-badge" class="badge">0</span>
+                    </button>
+                </div>
+
+                <!-- Tab 1: Final Answer Content -->
+                <div id="tab-answer" class="tab-content active">
+                    <div id="answer-container" class="markdown-body">
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                </svg>
+                            </div>
+                            <h3>Awaiting Codebase Investigation</h3>
+                            <p>Select a codebase, enter a developer question, and let the agent inspect files, dependencies, and execution pathways.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Evidence Panel -->
+                <div id="tab-evidence" class="tab-content">
+                    <div id="evidence-container" class="evidence-grid">
+                        <div class="empty-state-mini">No evidence collected yet.</div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Execution Flow Panel -->
+                <div id="tab-flow" class="tab-content">
+                    <div id="flow-container" class="flow-timeline">
+                        <div class="empty-state-mini">No execution flow traced yet.</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Independent Tools Sandbox Modal -->
+    <div id="tools-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="brand-icon small">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="modal-title">Inspection Tools Playground</h3>
+                        <p class="modal-subtitle">Independently test and debug the agent's core repository tools</p>
+                    </div>
+                </div>
+                <button id="btn-close-modal" class="btn-close">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="tool-selector-bar">
+                    <button class="tool-tab active" data-tool="list_files">1. list_files</button>
+                    <button class="tool-tab" data-tool="search_code">2. search_code</button>
+                    <button class="tool-tab" data-tool="read_file">3. read_file</button>
+                    <button class="tool-tab" data-tool="get_dependencies">4. get_dependencies</button>
+                    <button class="tool-tab" data-tool="read_documentation">5. read_documentation</button>
+                </div>
+
+                <div class="tool-form-inputs">
+                    <div class="input-row">
+                        <label>Repository:</label>
+                        <input type="text" id="tool-repo-input" value="sample-auth-service">
+                    </div>
+                    <div id="tool-param-container" class="input-row">
+                        <!-- Dynamic parameters for selected tool -->
+                    </div>
+                    <button id="btn-execute-tool" class="btn-primary small">Run Tool</button>
+                </div>
+
+                <div class="tool-output-box">
+                    <div class="tool-output-header">
+                        <span>Tool Output (JSON / Structured Lines)</span>
+                        <span id="tool-exec-time" class="exec-time"></span>
+                    </div>
+                    <pre id="tool-output-pre">Click "Run Tool" to inspect tool execution result...</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script src="/static/app.js"></script>
+</body>
+</html>
